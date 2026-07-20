@@ -1,0 +1,258 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Player {
+  id           String               @id @default(cuid())
+  externalId   String?              @unique
+  name         String
+  country      String
+  club         String
+  position     String               // GK, DEF, MID, FWD
+  flag         String
+  status       String               @default("active") // active, injured, suspended, eliminated
+  statusReason String?
+  starterRate  Float                @default(0.7)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  stats        PlayerStats[]
+  wcStats      WorldCupStats?
+  wcMatchStats WorldCupMatchStats[]
+}
+
+model PlayerStats {
+  id             String   @id @default(cuid())
+  playerId       String
+  period         String   // 2m, 6m, recent_nt
+  goals          Int      @default(0)
+  assists        Int      @default(0)
+  matches        Int      @default(0)
+  rating         Float    @default(0)
+  goalsPerMatch  Float    @default(0)
+  shotsOnTarget  Int      @default(0)
+  shotsTotal     Int      @default(0)
+  passAccuracy   Float    @default(0)
+  foulsCommitted Int      @default(0)
+  foulsDrawn      Int      @default(0)
+  yellowCards    Int      @default(0)
+  redCards       Int      @default(0)
+  tackles        Int      @default(0)
+  interceptions  Int      @default(0)
+  dribbles       Int      @default(0)
+  weightedScore  Float    @default(0)
+  updatedAt      DateTime @updatedAt
+  player         Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, period])
+}
+
+model WorldCupStats {
+  id             String  @id @default(cuid())
+  playerId       String  @unique
+  matches        Int     @default(0)
+  goals          Int     @default(0)
+  assists        Int     @default(0)
+  yellowCards    Int     @default(0)
+  redCards       Int     @default(0)
+  shotsOnTarget  Int     @default(0)
+  foulsCommitted Int     @default(0)
+  foulsDrawn      Int     @default(0)
+  tackles        Int     @default(0)
+  rating         Float   @default(0)
+  player         Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+}
+
+model WorldCupMatchStats {
+  id             String  @id @default(cuid())
+  playerId       String
+  matchId        String
+  goals          Int     @default(0)
+  assists        Int     @default(0)
+  yellowCards    Int     @default(0)
+  redCards       Int     @default(0)
+  shotsOnTarget  Int     @default(0)
+  foulsCommitted Int     @default(0)
+  foulsDrawn      Int     @default(0)
+  tackles        Int     @default(0)
+  passAccuracy   Float   @default(0)
+  rating         Float   @default(0)
+  minutesPlayed  Int     @default(90)
+  player         Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  match          Match   @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, matchId])
+}
+
+model Match {
+  id          String               @id @default(cuid())
+  externalId  String?              @unique
+  homeTeam    String
+  awayTeam    String
+  homeFlag    String               @default("")
+  awayFlag    String               @default("")
+  date        DateTime
+  result      String?
+  status      String               @default("scheduled") // scheduled, live, finished
+  competition String
+  round       String               @default("Group Stage")
+  group       String               @default("")
+  lineupHome        Json?    // formación confirmada local [{id, name, position, number}]
+  lineupAway        Json?    // formación confirmada visitante
+  lineupFetchedAt   DateTime?
+  createdAt         DateTime             @default(now())
+  playerStats       WorldCupMatchStats[]
+}
+
+model TeamStats {
+  id             String   @id @default(cuid())
+  country        String   @unique
+  flag           String   @default("")
+  // Acumulado en el Mundial (se actualiza tras cada partido)
+  matches        Int      @default(0)
+  goalsFor       Int      @default(0)
+  goalsAgainst   Int      @default(0)
+  corners        Int      @default(0)
+  yellowCards    Int      @default(0)
+  redCards       Int      @default(0)
+  offsides       Int      @default(0)
+  foulsCommitted Int      @default(0)
+  shotsTotal     Int      @default(0)
+  shotsOnTarget  Int      @default(0)
+  possession     Float    @default(0) // promedio %
+  // Promedios por partido (calculados al guardar)
+  cornersPerMatch    Float @default(0)
+  yellowsPerMatch    Float @default(0)
+  offsidesPerMatch   Float @default(0)
+  shotsPerMatch      Float @default(0)
+  goalsForPerMatch   Float @default(0)
+  updatedAt      DateTime @updatedAt
+}
+
+model TeamRecentStats {
+  id             String   @id @default(cuid())
+  country        String   @unique
+  flag           String   @default("")
+  matches        Int      @default(0)
+  goalsFor       Int      @default(0)
+  goalsAgainst   Int      @default(0)
+  corners        Int      @default(0)
+  yellowCards    Int      @default(0)
+  foulsCommitted Int      @default(0)
+  shotsTotal     Int      @default(0)
+  shotsOnTarget  Int      @default(0)
+  possession     Float    @default(0)
+  cornersPerMatch  Float  @default(0)
+  yellowsPerMatch  Float  @default(0)
+  shotsPerMatch    Float  @default(0)
+  goalsForPerMatch Float  @default(0)
+  updatedAt      DateTime @updatedAt
+}
+
+model Combo {
+  id              String   @id @default(cuid())
+  matchId         String?
+  name            String
+  riskLevel       String
+  totalOdds       Float
+  realProbability Float
+  confidenceScore Int      @default(0)  // 0-100
+  picks           String   // JSON
+  justification   String
+  whyItWorks      String   @default("")  // explicación detallada del razonamiento
+  edgeTip         String
+  marketInsight   String?
+  createdAt       DateTime @default(now())
+}
+
+// Apuestas que el sistema sugiere automáticamente. Siempre stake $1.
+model SystemPick {
+  id          String    @id @default(cuid())
+  signature   String    @unique
+  kind        String    @default("simple") // simple, combo
+  matchId     String
+  matchName   String    @default("")
+  player      String
+  marketId    String
+  marketLabel String
+  line        String
+  odds        Float
+  stake       Float     @default(1)
+  picks       String    @default("[]") // JSON para combinadas
+  riskLevel   String    @default("")
+  result      String    @default("pending") // pending, won, lost, void
+  profit      Float?
+  createdAt   DateTime  @default(now())
+  settledAt   DateTime?
+
+  @@index([matchId])
+  @@index([result])
+  @@index([marketId])
+}
+
+// Picks que el usuario decide apostar
+model BetTracker {
+  id          String    @id @default(cuid())
+  comboId     String?   // combo que la originó
+  matchId     String?
+  matchName   String    @default("")
+  player      String
+  marketId    String
+  marketLabel String
+  line        String
+  odds        Float
+  stake       Float     @default(10)
+  result      String    @default("pending") // pending, won, lost, void
+  profit      Float?
+  notes       String    @default("")
+  createdAt   DateTime  @default(now())
+  settledAt   DateTime?
+}
+
+// Precisión acumulada del sistema por mercado
+model MarketAccuracy {
+  id         String   @id @default(cuid())
+  marketId   String   @unique
+  total      Int      @default(0)
+  won        Int      @default(0)
+  lost       Int      @default(0)
+  hitRate    Float    @default(0)
+  avgOdds    Float    @default(0)
+  roi        Float    @default(0)
+  updatedAt  DateTime @updatedAt
+}
+
+// Resumen diario del sistema (para auto-mejora)
+model DailySystemStats {
+  id          String   @id @default(cuid())
+  date        String   @unique // YYYY-MM-DD
+  totalPicks  Int      @default(0)
+  won         Int      @default(0)
+  lost        Int      @default(0)
+  hitRate     Float    @default(0)
+  roi         Float    @default(0)
+  aiInsight   String   @default("") // aprendizaje del día generado por IA
+  createdAt   DateTime @default(now())
+}
+
+// Suscripciones web push
+model PushSubscription {
+  id        String   @id @default(cuid())
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  label     String   @default("")
+  createdAt DateTime @default(now())
+}
+
+model SyncLog {
+  id        String   @id @default(cuid())
+  type      String
+  status    String
+  message   String?
+  createdAt DateTime @default(now())
+}
