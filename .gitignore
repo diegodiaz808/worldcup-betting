@@ -42,3 +42,5 @@ next-env.d.ts
 dev.db
 *.db
 .claude/
+
+out/

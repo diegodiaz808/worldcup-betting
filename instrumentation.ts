@@ -1,5 +1,6 @@
 export async function register() {
   if (process.env.NEXT_RUNTIME !== 'nodejs') return
+  if (process.env.DEMO_EXPORT === '1') return // static demo build: no crons, no sync
 
   const cron = await import('node-cron')
   const { runDailySync, syncUpcomingLineups, syncPostMatch } = await import('./lib/sync')

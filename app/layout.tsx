@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Bebas_Neue, Inter } from 'next/font/google'
 import './globals.css'
 import NavBar from '@/components/NavBar'
+import DemoShim from '@/components/DemoShim'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const bebasNeue = Bebas_Neue({
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={`${inter.variable} ${bebasNeue.variable}`}>
       <body className="antialiased min-h-screen font-sans" style={{ background: 'var(--bg)' }}>
+        <DemoShim />
         <NavBar />
         <main className="max-w-5xl mx-auto px-4 py-6 pb-20">{children}</main>
       </body>

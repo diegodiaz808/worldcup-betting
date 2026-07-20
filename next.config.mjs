@@ -1,5 +1,14 @@
+const demoExport = process.env.DEMO_EXPORT === '1'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  ...(demoExport && {
+    output: 'export',
+    basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+    images: { unoptimized: true },
+    trailingSlash: true,
+    eslint: { ignoreDuringBuilds: true },
+  }),
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client', 'web-push', 'node-cron'],
     instrumentationHook: true,
