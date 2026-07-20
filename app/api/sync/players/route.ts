@@ -14,7 +14,7 @@ export async function GET() {
   })
 }
 
-// POST ?country=Mexico  — sincroniza un solo país (~2 min, no genera timeout HTTP)
+// POST ?country=Mexico  - sincroniza un solo país (~2 min, no genera timeout HTTP)
 export async function POST(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const country = searchParams.get('country')

@@ -253,7 +253,7 @@ export async function generateCombos(
     confidenceScore: c.combinedScore,
     justification: c.description,
     whyItWorks: c.picks.map((p) => `${p.player}: ${p.whyItWorks}`).join(' | '),
-    edgeTip: `Cuota combinada ${c.totalOdds.toFixed(2)}x — probabilidad estimada ${c.estimatedProbability}%`,
+    edgeTip: `Cuota combinada ${c.totalOdds.toFixed(2)}x - probabilidad estimada ${c.estimatedProbability}%`,
     marketInsight: '',
   }))
 }

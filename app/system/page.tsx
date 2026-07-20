@@ -31,7 +31,7 @@ export default function SystemPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="bebas text-3xl">Sistema — Test de sugerencias</h1>
+        <h1 className="bebas text-3xl">Sistema - Test de sugerencias</h1>
         <p className="text-sm mt-1" style={{ color: 'var(--text-dim)' }}>
           Auditoría interna de lo que el sistema sugirió. Stake simulado fijo de $1 por simple o combinada.
         </p>

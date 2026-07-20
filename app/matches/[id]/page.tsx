@@ -577,7 +577,7 @@ export default function MatchPage() {
                 </div>
               </div>
 
-              {/* Combinadas — tickets estilo bet365 */}
+              {/* Combinadas - tickets estilo bet365 */}
               {combos.length > 0 && <ComboSection combos={combos} />}
 
               {picks.length === 0 && (

@@ -278,7 +278,7 @@ function hasCorrelationConflict(candidate: SimplePick, selected: SimplePick[]): 
 
   for (const group of CORRELATED_GROUPS) {
     if (!group.includes(candidate.marketId)) continue
-    // el candidato pertenece a este grupo — ¿algún pick existente del mismo jugador también?
+    // el candidato pertenece a este grupo - ¿algún pick existente del mismo jugador también?
     if (existing.some((s) => group.includes(s.marketId))) return true
   }
 

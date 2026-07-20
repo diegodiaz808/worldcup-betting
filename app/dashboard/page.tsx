@@ -68,7 +68,7 @@ export default function DashboardPage() {
             Player Intelligence
           </h1>
           <p style={{ color: 'var(--text-dim)' }} className="text-sm mt-1">
-            FIFA World Cup 2026 — Weighted form analysis
+            FIFA World Cup 2026 - Weighted form analysis
           </p>
         </div>
         <SyncButton onSync={fetchPlayers} lastSync={lastSync} />
@@ -92,13 +92,13 @@ export default function DashboardPage() {
             className="h-full flex items-center justify-center text-xs font-bold text-black"
             style={{ width: '65%', background: 'var(--green)' }}
           >
-            Last 2 Months — 65%
+            Last 2 Months - 65%
           </div>
           <div
             className="h-full flex items-center justify-center text-xs font-medium"
             style={{ width: '35%', background: 'var(--gold-dim)', color: '#000' }}
           >
-            Last 6 Months — 35%
+            Last 6 Months - 35%
           </div>
         </div>
       </div>

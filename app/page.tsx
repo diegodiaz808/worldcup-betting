@@ -230,7 +230,7 @@ function AboutSection() {
       style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
     >
       <p className="text-sm" style={{ color: 'var(--text-dim)' }}>
-        Hecha por <span style={{ color: 'var(--text)' }}>Diego Diaz</span> (acepta MercadoPete a modo de propina) — La app corre sobre Next.js, Prisma y estadísticas en tiempo real de API-Football.
+        Hecha por <span style={{ color: 'var(--text)' }}>Diego Diaz</span> (acepta MercadoPete a modo de propina) - La app corre sobre Next.js, Prisma y estadísticas en tiempo real de API-Football.
       </p>
       <p className="text-sm" style={{ color: 'var(--text-dim)' }}>
         Cruza actualidad de jugadores, muestra del Mundial y dificultad del rival para estimar probabilidades con mercados definidos.
@@ -305,7 +305,7 @@ export default function HomePage() {
           <h2 className="bebas text-xl mb-3">
             Hoy{' '}
             <span style={{ color: 'var(--text-dim)' }}>
-              — {upcomingToday.length} partido{upcomingToday.length > 1 ? 's' : ''}
+              - {upcomingToday.length} partido{upcomingToday.length > 1 ? 's' : ''}
             </span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

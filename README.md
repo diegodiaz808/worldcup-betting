@@ -1,12 +1,12 @@
-# CojeCasinos — WC2026 Betting Intelligence
+# CojeCasinos - WC2026 Betting Intelligence
 
 AI-powered betting analytics for the FIFA World Cup 2026.
 
-**▶ [Live demo](https://diegodiaz808.github.io/worldcup-betting/)** — static snapshot of the system's last real run (the live data APIs no longer operate).
+**▶ [Live demo](https://diegodiaz808.github.io/worldcup-betting/)** - static snapshot of the system's last real run (the live data APIs no longer operate).
 
-![Matches — full World Cup schedule](screenshots/matches.png)
+![Matches - full World Cup schedule](screenshots/matches.png)
 
-![Match detail — high-confidence alerts per player](screenshots/match-detail.png)
+![Match detail - high-confidence alerts per player](screenshots/match-detail.png)
 
 ## Stack
 - Next.js 14 (App Router) + TypeScript

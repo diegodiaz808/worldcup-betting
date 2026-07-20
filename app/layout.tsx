@@ -13,7 +13,7 @@ const bebasNeue = Bebas_Neue({
 
 export const metadata: Metadata = {
   title: 'CojeCasinos',
-  description: 'Inteligencia estadística para apuestas deportivas — Mundial 2026',
+  description: 'Inteligencia estadística para apuestas deportivas - Mundial 2026',
   icons: {
     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>",
   },

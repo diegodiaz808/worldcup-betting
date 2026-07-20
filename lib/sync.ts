@@ -292,7 +292,7 @@ export async function syncPlayers() {
   console.log('[sync] Players synced.')
 }
 
-// Sincroniza un solo país — útil para llamar desde la UI país por país sin timeout
+// Sincroniza un solo país - útil para llamar desde la UI país por país sin timeout
 export async function syncOneCountry(country: string): Promise<{ ok: boolean; players: number; message: string }> {
   if (!API_KEY) return { ok: false, players: 0, message: 'Sin API key' }
 
@@ -413,7 +413,7 @@ export async function runFullSync(force = false) {
     if (last) {
       const age = (Date.now() - last.createdAt.getTime()) / 1000 / 3600
       if (age < SYNC_TTL_HOURS) {
-        return { success: true, skipped: true, message: `Último sync hace ${age.toFixed(1)}h — próximo en ${(SYNC_TTL_HOURS - age).toFixed(1)}h` }
+        return { success: true, skipped: true, message: `Último sync hace ${age.toFixed(1)}h - próximo en ${(SYNC_TTL_HOURS - age).toFixed(1)}h` }
       }
     }
   }
@@ -490,10 +490,10 @@ async function syncRecentInternationalForm() {
     }).slice(0, 5) // hasta 5 partidos (amistosos + clasificatorios recientes)
 
     if (recent.length === 0) {
-      console.log(`[sync] recent_nt: ${country} — 0 partidos no-WC en los últimos 120 días`)
+      console.log(`[sync] recent_nt: ${country} - 0 partidos no-WC en los últimos 120 días`)
       continue
     }
-    console.log(`[sync] recent_nt: ${country} — ${recent.length} partidos recientes`)
+    console.log(`[sync] recent_nt: ${country} - ${recent.length} partidos recientes`)
     if (!teamAcc[country]) teamAcc[country] = emptyRecentAccumulator(cfg.flag)
 
     for (const f of recent) {
@@ -750,14 +750,14 @@ export async function syncUpcomingLineups() {
         },
       })
       fetched++
-      console.log(`[lineup] ${match.homeTeam} vs ${match.awayTeam} — formaciones guardadas`)
+      console.log(`[lineup] ${match.homeTeam} vs ${match.awayTeam} - formaciones guardadas`)
 
       // Push notification a todos los suscriptores
       try {
         const { sendPushToAll } = await import('./push')
         await sendPushToAll(
           `⚽ Formación confirmada`,
-          `${match.homeTeam} vs ${match.awayTeam} — el XI oficial está disponible`,
+          `${match.homeTeam} vs ${match.awayTeam} - el XI oficial está disponible`,
           `/matches/${match.id}`,
         )
       } catch { /* push opcional */ }

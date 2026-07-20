@@ -112,7 +112,7 @@ export async function refreshMatchPicks(matchId: string) {
     }),
   ])
 
-  console.log(`[cron] refreshMatchPicks: ${matchName} — ${picks.length} simples, ${combos.length} combinadas`)
+  console.log(`[cron] refreshMatchPicks: ${matchName} - ${picks.length} simples, ${combos.length} combinadas`)
   return { ok: true, matchName, simples: picks.length, combinadas: combos.length }
 }
 
@@ -130,7 +130,7 @@ function scheduleMatch(match: { id: string; homeTeam: string; awayTeam: string; 
   // ① 30 min antes del KO: lineup + picks frescos
   if (msToPreKO > 0) {
     setTimeout(async () => {
-      console.log(`[cron] Pre-KO: ${name} arranca en 30 min — actualizando lineup y picks`)
+      console.log(`[cron] Pre-KO: ${name} arranca en 30 min - actualizando lineup y picks`)
       try {
         await syncUpcomingLineups()
         await refreshMatchPicks(match.id)
@@ -188,7 +188,7 @@ export function startCron() {
 
   // ② 6 AM (hora AR): sync completo + re-programar partidos nuevos
   cron.schedule('0 6 * * *', async () => {
-    console.log('[cron] 6 AM — sync diario completo')
+    console.log('[cron] 6 AM - sync diario completo')
     try {
       await runDailySync()
       // Re-programar por si se agregaron partidos nuevos (ej: fase eliminatoria)

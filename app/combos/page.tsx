@@ -74,7 +74,7 @@ export default function CombosPage() {
             AI Combo Generator
           </h1>
           <p style={{ color: 'var(--text-dim)' }} className="text-sm mt-1">
-            Powered by Claude Opus — Top 8 players weighted analysis
+            Powered by Claude Opus - Top 8 players weighted analysis
           </p>
         </div>
 

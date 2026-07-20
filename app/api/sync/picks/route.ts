@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { refreshMatchPicks } from '@/lib/cron'
 
-// POST /api/sync/picks?matchId=xxx  — regenera picks de un partido
+// POST /api/sync/picks?matchId=xxx  - regenera picks de un partido
 export async function POST(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const matchId = searchParams.get('matchId')

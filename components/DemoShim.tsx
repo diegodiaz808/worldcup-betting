@@ -59,7 +59,7 @@ export default function DemoShim() {
         fontWeight: 600,
       }}
     >
-      DEMO — snapshot real y estático de la última corrida del sistema (las APIs de datos en vivo ya no operan)
+      DEMO - snapshot real y estático de la última corrida del sistema (las APIs de datos en vivo ya no operan)
     </div>
   )
 }

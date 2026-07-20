@@ -35,7 +35,7 @@ function BetRow({ bet, onSettle, onDelete }: {
             <span className="text-xs truncate" style={{ color: 'var(--text-dim)' }}>{bet.matchName}</span>
           </div>
           <div className="font-semibold text-sm">{bet.player}</div>
-          <div className="text-sm" style={{ color: 'var(--green)' }}>{bet.marketLabel} — {bet.line}</div>
+          <div className="text-sm" style={{ color: 'var(--green)' }}>{bet.marketLabel} - {bet.line}</div>
         </div>
         <div className="text-right shrink-0">
           <div className="bebas text-xl" style={{ color: 'var(--green)' }}>{bet.odds.toFixed(2)}x</div>
