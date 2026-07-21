@@ -143,9 +143,9 @@ for mid, hr, n, ao in [("player_shot_on_target", 0.66, 118, 1.58), ("player_yell
                        ("player_foul_committed", 0.61, 96, 1.72), ("player_tackle", 0.57, 68, 1.80),
                        ("player_foul_drawn", 0.52, 58, 1.85), ("match_corners", 0.62, 42, 1.75)]:
     won = round(n * hr)
-    roi = round((won * (ao - 1) - (n - won)) / n * 100, 1)
-    acc.append({"marketId": mid, "total": n, "won": won, "hitRate": round(hr * 100, 1),
-                "avgOdds": ao, "roi": roi})
+    roi = (won * (ao - 1) - (n - won)) / n  # fracción (el front multiplica x100)
+    acc.append({"marketId": mid, "total": n, "won": won, "hitRate": round(hr, 3),
+                "avgOdds": ao, "roi": round(roi, 3)})
 
 daily, insights_txt = [], [
     "Los overs de tiros al arco rindieron por encima del cierre de linea.",
@@ -157,18 +157,18 @@ for i in range(11, 28):
     n = rng.randint(18, 34)
     hr = rng.uniform(0.48, 0.68)
     won = round(n * hr)
-    roi = round((won * 0.78 - (n - won)) / n * 100, 1)
+    roi = (won * 0.78 - (n - won)) / n  # fracción
     daily.append({"date": f"2026-06-{i:02d}", "won": won, "lost": n - won,
-                  "hitRate": round(hr * 100, 1), "roi": roi,
+                  "hitRate": round(hr, 3), "roi": round(roi, 3),
                   "aiInsight": insights_txt[i % len(insights_txt)]})
 
 total = sum(a["total"] for a in acc)
 won_t = sum(a["won"] for a in acc)
-profit = round(sum(a["total"] * a["roi"] / 100 for a in acc), 2)
+profit = round(sum(a["total"] * a["roi"] for a in acc), 2)
 system = {"accuracy": acc, "daily": daily,
           "summary": {"totalBets": total, "wonBets": won_t,
-                      "hitRate": round(won_t / total * 100, 1), "totalStake": total,
-                      "totalProfit": profit, "roi": round(profit / total * 100, 1),
+                      "hitRate": round(won_t / total, 3), "totalStake": total,
+                      "totalProfit": profit, "roi": round(profit / total, 3),
                       "totalSuggestions": 456, "pendingSuggestions": 0}}
 (DATA / "system.json").write_text(json.dumps(system, ensure_ascii=False))
 
