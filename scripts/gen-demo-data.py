@@ -84,6 +84,7 @@ for m in matches:
         })
     (DATA / "matches" / f"{m['id']}-picks.json").write_text(
         json.dumps({"picks": picks, "combos": combos}, ensure_ascii=False))
+    f.write_text(json.dumps(d, ensure_ascii=False))  # persistir status/result en el detalle
     for p in picks:
         all_pick_rows.append((m, p))
 

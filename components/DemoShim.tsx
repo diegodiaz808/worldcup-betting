@@ -8,6 +8,8 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
 function demoUrl(path: string, query: URLSearchParams): string | null {
   if (path === '/api/matches') return `${BASE}/data/matches.json`
+  const picks = path.match(/^\/api\/matches\/([^/]+)\/picks$/)
+  if (picks) return `${BASE}/data/matches/${picks[1]}-picks.json`
   if (path.startsWith('/api/matches/')) {
     const id = path.split('/')[3]
     return id ? `${BASE}/data/matches/${id}.json` : null
@@ -31,6 +33,10 @@ if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_DEMO === '1') {
     if (raw.includes('/api/')) {
       const u = new URL(raw, window.location.origin)
       const method = (init?.method || 'GET').toUpperCase()
+      const mapped = demoUrl(u.pathname.replace(BASE, ''), u.searchParams)
+      // a mapped snapshot file wins even for POST (e.g. pick generation),
+      // revalidated so a rebuilt demo isn't masked by HTTP cache
+      if (mapped) return realFetch(mapped, { cache: 'no-cache' })
       if (method !== 'GET') {
         return Promise.resolve(
           new Response(JSON.stringify({ demo: true, message: 'Demo estático: acción deshabilitada' }), {
@@ -39,9 +45,6 @@ if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_DEMO === '1') {
           }),
         )
       }
-      const mapped = demoUrl(u.pathname.replace(BASE, ''), u.searchParams)
-      // revalidate snapshot files so a rebuilt demo isn't masked by HTTP cache
-      if (mapped) return realFetch(mapped, { cache: 'no-cache' })
     }
     return realFetch(input as RequestInfo, init)
   }
