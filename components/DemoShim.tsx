@@ -40,7 +40,8 @@ if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_DEMO === '1') {
         )
       }
       const mapped = demoUrl(u.pathname.replace(BASE, ''), u.searchParams)
-      if (mapped) return realFetch(mapped)
+      // revalidate snapshot files so a rebuilt demo isn't masked by HTTP cache
+      if (mapped) return realFetch(mapped, { cache: 'no-cache' })
     }
     return realFetch(input as RequestInfo, init)
   }
