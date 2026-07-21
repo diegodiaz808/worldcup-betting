@@ -80,7 +80,7 @@ for m in matches:
             "description": "Las dos señales de mayor confianza del partido combinadas.",
             "riskLevel": "MODERADO", "picks": legs, "totalOdds": total,
             "combinedScore": round((legs[0]["confidenceScore"] + legs[1]["confidenceScore"]) / 2),
-            "estimatedProbability": round(legs[0]["probability"] * legs[1]["probability"], 2),
+            "estimatedProbability": round(legs[0]["probability"] * legs[1]["probability"] * 100),
         })
     (DATA / "matches" / f"{m['id']}-picks.json").write_text(
         json.dumps({"picks": picks, "combos": combos}, ensure_ascii=False))
@@ -110,7 +110,7 @@ bets.sort(key=lambda b: b["createdAt"], reverse=True)
 def combo(nid, name, risk, picks, just, edge, insight, prob):
     return {"id": nid, "name": name, "riskLevel": risk,
             "totalOdds": round(eval("*".join(str(p["odds"]) for p in picks)), 2),
-            "realProbability": prob, "picks": picks,
+            "realProbability": round(prob * 100), "picks": picks,  # el front muestra el número + "%"
             "justification": just, "edgeTip": edge, "marketInsight": insight,
             "createdAt": "2026-06-24T18:00:00.000Z"}
 
